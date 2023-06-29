@@ -243,11 +243,12 @@
         var limitNumber = 10; // Default limit number for multiplication
         var totalTime = 0;
         var timerInterval;
-        var random = new Random.Random();
+        var eng = Random.MersenneTwister19937.autoSeed();
+        var myrandom = new Random.Random(eng);
         function generateQuestions() {
             for (var i = 0; i < questionCount; i++) {
-                var num1 = random.integer(5, limitNumber);
-                var num2 = random.integer(5, limitNumber);
+                var num1 = myrandom.integer(5, limitNumber);
+                var num2 = myrandom.integer(5, limitNumber);
                 questions.push({
                     num1: num1,
                     num2: num2,
