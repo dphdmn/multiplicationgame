@@ -231,6 +231,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/random-js@2.0.0/dist/random-js.min.js"></script>
     <script>
         var myChart;
         var questions = [];
@@ -242,11 +243,11 @@
         var limitNumber = 10; // Default limit number for multiplication
         var totalTime = 0;
         var timerInterval;
-
+        var random = new Random.Random();
         function generateQuestions() {
             for (var i = 0; i < questionCount; i++) {
-                var num1 = Math.floor(Math.random() * (limitNumber - 5 + 1)) + 5;
-                var num2 = Math.floor(Math.random() * (limitNumber - 5 + 1)) + 5;
+                var num1 = random.integer(5, limitNumber);
+                var num2 = random.integer(5, limitNumber);
                 questions.push({
                     num1: num1,
                     num2: num2,
