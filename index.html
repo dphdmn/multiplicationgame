@@ -12,14 +12,43 @@
             align-items: center;
             height: 100vh;
             color: #fff;
+            overflow: hidden;
+        }
+
+        #quiz-window {
+            min-width: 600px;
         }
 
         .container {
             background-color: #222;
+            max-width: 650px;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
             text-align: center;
+        }
+
+        #resultsWindow {
+            margin-left: 100px;
+            min-width: 600px;
+        }
+
+        #quick {
+            margin-top: -100px;
+            position: relative;
+            top: 200px;
+        }
+
+        #quick-start-1 {
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        #quick-start-2 {
+            box-shadow: 0 0 30px rgba(255, 255, 0, 0.2);
+        }
+
+        #quick-start-3 {
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
         }
 
         h1 {
@@ -61,6 +90,7 @@
         #question-time {
             font-weight: bold;
             color: #fff;
+            margin-right: 30px;
         }
 
         #total-time::before,
@@ -75,7 +105,10 @@
         }
 
         #settings {
+            position: relative;
+            top: -100px;
             display: block;
+            min-width: 670px;
         }
 
         #settings label,
@@ -90,11 +123,8 @@
         }
 
         #start-btn {
-            display: block;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 30px;
-            padding: 10px 20px;
+            font-size: 18px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
         }
 
         #settings select {
@@ -115,6 +145,10 @@
         #result-container h2 {
             margin-top: 0;
             color: #fff;
+        }
+
+        #main_results {
+            font-size: 24px;
         }
 
         #result {
@@ -138,12 +172,12 @@
         table.question-table thead th {
             background-color: #444;
             color: #fff;
-            padding: 10px;
+            padding: 4px;
             border: 1px solid cyan;
         }
 
         table.question-table tbody td {
-            padding: 10px;
+            padding: 4px;
             border: 1px solid cyan;
         }
 
@@ -152,15 +186,15 @@
         }
 
         table.question-table {
-            font-size: 18px;
-            width: 80%;
+            font-size: 16px;
+            width: 70%;
             border-collapse: collapse;
             margin-top: 20px;
             margin: 0 auto;
         }
 
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 3px;
         }
 
         ::-webkit-scrollbar-track {
@@ -214,7 +248,17 @@
             <option value="10000">10000</option>
         </select>
         <button id="start-btn">Start</button>
+        <div class="container" id="quick">
+            <h1>Quick start</h1>
+            <button id="quick-start-1">10 questions with limit 100</button>
+            <button id="quick-start-2">25 questions with limit 100</button>
+            <button id="quick-start-3">100 questions with limit 100</button><br>
+        </div>
+
+    </div>
+    <div class="container" id="resultsWindow" style="display: none;">
         <div id="result-container">
+            <div id="main_results"></div>
             <div id="result"></div>
             <canvas id="resultsGraph"><canvas>
         </div>
@@ -225,14 +269,45 @@
         <div id="question"></div>
         <input type="text" id="input" autofocus>
         <div id="timer">
-            Timer: <span id="total-time">0s</span><br>
-            Question: <span id="question-number">0/0</span><br>
+            Timer: <span id="total-time">0s</span>
+            Question: <span id="question-number">0/0</span>
             Question Time: <span id="question-time">0s</span>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://unpkg.com/random-js@2.0.0/dist/random-js.min.js"></script>
     <script>
+        const questionCountSelect = document.getElementById('question-count');
+        const limitNumberSelect = document.getElementById('limit-number');
+        const startButton = document.getElementById('start-btn');
+        const quickStartButtons = document.querySelectorAll('button[id^="quick-start-"]');
+
+        // Add event listeners to the quick start buttons
+        quickStartButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                // Update the select elements
+                if (index === 0) {
+                    questionCountSelect.value = '10';
+                    limitNumberSelect.value = '100';
+                } else if (index === 1) {
+                    questionCountSelect.value = '25';
+                    limitNumberSelect.value = '100';
+                } else if (index === 2) {
+                    questionCountSelect.value = '100';
+                    limitNumberSelect.value = '100';
+                } else if (index === 3) {
+                    questionCountSelect.value = '5';
+                    limitNumberSelect.value = '1000';
+                } else if (index === 4) {
+                    questionCountSelect.value = '10';
+                    limitNumberSelect.value = '1000';
+                }
+
+                // Trigger the click event on the Start button
+                startButton.click();
+            });
+        });
+
         var myChart;
         var questions = [];
         var currentIndex = 0;
@@ -245,6 +320,7 @@
         var timerInterval;
         var eng = Random.MersenneTwister19937.autoSeed();
         var myrandom = new Random.Random(eng);
+
         function generateQuestions() {
             for (var i = 0; i < questionCount; i++) {
                 var num1 = myrandom.integer(5, limitNumber);
@@ -294,19 +370,19 @@
 
         function finishQuiz() {
             clearInterval(timerInterval);
+            var mainresults = document.getElementById('main_results');
             var resultElement = document.getElementById('result');
             resultElement.innerHTML = '';
             var totalSeconds = totalTime / 1000;
+            var modeInfoElements = document.createElement('div');
+            modeInfoElements.textContent = log.length + " questions with limit number " + limitNumber
+            modeInfoElements.style.margin = '10px';
+            mainresults.appendChild(modeInfoElements);
             var totalElement = document.createElement('div');
-            totalElement.textContent = 'Total time: ' + totalSeconds + ' seconds';
+            totalElement.textContent = 'Total time: ' + totalSeconds + ' seconds (' + (totalSeconds / log.length).toFixed(3) + 's per question)';
             totalElement.style.fontWeight = 'bold';
-            totalElement.style.marginTop = '20px';
-            resultElement.appendChild(totalElement);
-            var logElement = document.createElement('div');
-            logElement.textContent = 'Time taken for each question:';
-            logElement.style.marginTop = '10px';
-            logElement.style.fontSize = '18px';
-            resultElement.appendChild(logElement);
+            totalElement.style.margin = '20px';
+            mainresults.appendChild(totalElement);
 
             // Get the result element
             var resultElement = document.getElementById('result');
@@ -375,6 +451,7 @@
 
 
             document.getElementById('settings').style.display = 'block';
+            document.getElementById('resultsWindow').style.display = 'block';
             document.getElementById('result-container').style.display = 'block';
             document.getElementById('quiz-window').style.display = 'none';
             document.getElementById('input').value = '';
@@ -432,6 +509,7 @@
             document.getElementById('question-number').textContent = '0/0';
             document.getElementById('question-time').textContent = '0s';
             document.getElementById('result').innerHTML = '';
+            document.getElementById('main_results').innerHTML = '';
         }
 
         function updateTimer() {
@@ -461,6 +539,7 @@
             updateQuestionNumber();
             timerInterval = setInterval(updateTimer, 1);
             document.getElementById('settings').style.display = 'none';
+            document.getElementById('resultsWindow').style.display = 'none';
             document.getElementById('result-container').style.display = 'none';
             document.getElementById('quiz-window').style.display = 'block';
             document.getElementById('input').focus();
