@@ -210,6 +210,16 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #5bc0de;
         }
+
+        .no-spinners::-webkit-inner-spin-button,
+        .no-spinners::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .no-spinners {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 
@@ -267,7 +277,7 @@
     <div class="container" id="quiz-window" style="display: none;">
 
         <div id="question"></div>
-        <input type="text" id="input" autofocus>
+        <input type="number" inputmode="numeric" id="input" class="no-spinners" autofocus>
         <div id="timer">
             Timer: <span id="total-time">0s</span>
             Question: <span id="question-number">0/0</span>
