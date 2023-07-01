@@ -27,29 +27,84 @@
             box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
             text-align: center;
         }
-
+        #settings label,
+        #settings button {
+            margin: 5px;
+            color: #fff;
+            background-color: #444;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 10px;
+            cursor: pointer;
+            
+        }
         #resultsWindow {
             margin-left: 100px;
             min-width: 600px;
         }
 
         #quick {
-            margin-top: -100px;
+            margin-top: -400px;
             position: relative;
-            top: 200px;
+            top: 450px;
+        }
+        .quick-start-column {
+          display: inline-block;
+          vertical-align: top;
+          margin-right: 20px;
+          padding: 10px;
+          display: flex;
+          justify-content: space-between;
         }
 
-        #quick-start-1 {
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        .quick-start-column h2 {
+          position: relative;
+          display: inline-block;
+          font-size: 20px;
+          margin-bottom: 10px;
+          color: #333;
+          padding-bottom: 5px;
+          font-family: 'Indie Flower', cursive;
+          letter-spacing: 5px;
+          text-shadow: 2px 2px 4px rgba(0, 255, 255, 0.4);
+          background: linear-gradient(cyan, magenta);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
 
-        #quick-start-2 {
-            box-shadow: 0 0 30px rgba(255, 255, 0, 0.2);
+        .quick-start-column button[id^="quick-start-"] {
+          display: block;
+          width: 100%;
+          padding: 10px 30px;
+          border: none;
+          border-radius: 20px;
+          font-size: 45px;
+          font-weight: bold;
+          text-align: center;
+          line-height: 1;
+          cursor: pointer;
+          background-color: cyan;
+          color: white;
+          font-family: Calibri;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    
+        .quick-start-column button[id^="quick-start-"][id$="-10"] {
+          box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
         }
 
-        #quick-start-3 {
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+        .quick-start-column button[id^="quick-start-"][id$="-25"] {
+          box-shadow: 0 0 30px rgba(255, 255, 0, 0.2);
         }
+        
+        .quick-start-column button[id^="quick-start-"][id$="-50"] {
+          box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+        }
+
+        .quick-start-column button[id^="quick-start-"][id$="-100"] {
+          box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
 
         h1 {
             margin-top: 0;
@@ -106,20 +161,9 @@
 
         #settings {
             position: relative;
-            top: -100px;
+            top: -200px;
             display: block;
             min-width: 670px;
-        }
-
-        #settings label,
-        #settings button {
-            margin: 5px;
-            color: #fff;
-            background-color: #444;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
         }
 
         #start-btn {
@@ -259,10 +303,28 @@
         </select>
         <button id="start-btn">Start</button>
         <div class="container" id="quick">
-            <h1>Quick start</h1>
-            <button id="quick-start-1">10 questions with limit 100</button>
-            <button id="quick-start-2">25 questions with limit 100</button>
-            <button id="quick-start-3">100 questions with limit 100</button><br>
+          <h1>Quick start</h1>
+          <div class="quick-start-column">
+            <h2>Limit 10</h2>
+            <button id="quick-start-10-10">10</button>
+            <button id="quick-start-10-25">25</button>
+            <button id="quick-start-10-50">50</button>
+            <button id="quick-start-10-100">100</button>
+          </div>
+          <div class="quick-start-column">
+            <h2>Limit 50</h2>
+            <button id="quick-start-50-10">10</button>
+            <button id="quick-start-50-25">25</button>
+            <button id="quick-start-50-50">50</button>
+            <button id="quick-start-50-100">100</button>
+          </div>
+          <div class="quick-start-column">
+            <h2>Limit 100</h2>
+            <button id="quick-start-100-10">10</button>
+            <button id="quick-start-100-25">25</button>
+            <button id="quick-start-100-50">50</button>
+            <button id="quick-start-100-100">100</button>
+          </div>
         </div>
 
     </div>
@@ -287,31 +349,21 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://unpkg.com/random-js@2.0.0/dist/random-js.min.js"></script>
     <script>
+
         const questionCountSelect = document.getElementById('question-count');
         const limitNumberSelect = document.getElementById('limit-number');
         const startButton = document.getElementById('start-btn');
         const quickStartButtons = document.querySelectorAll('button[id^="quick-start-"]');
 
         // Add event listeners to the quick start buttons
-        quickStartButtons.forEach((button, index) => {
+        quickStartButtons.forEach((button) => {
             button.addEventListener('click', () => {
+                // Extract the difficulty and question count from the button id
+                const [, , difficulty, count] = button.id.split('-');
+                console.log(count, difficulty);
                 // Update the select elements
-                if (index === 0) {
-                    questionCountSelect.value = '10';
-                    limitNumberSelect.value = '100';
-                } else if (index === 1) {
-                    questionCountSelect.value = '25';
-                    limitNumberSelect.value = '100';
-                } else if (index === 2) {
-                    questionCountSelect.value = '100';
-                    limitNumberSelect.value = '100';
-                } else if (index === 3) {
-                    questionCountSelect.value = '5';
-                    limitNumberSelect.value = '1000';
-                } else if (index === 4) {
-                    questionCountSelect.value = '10';
-                    limitNumberSelect.value = '1000';
-                }
+                questionCountSelect.value = count;
+                limitNumberSelect.value = difficulty;
 
                 // Trigger the click event on the Start button
                 startButton.click();
