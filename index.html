@@ -327,6 +327,8 @@
         var questionCount = 10; // Default number of questions
         var limitNumber = 10; // Default limit number for multiplication
         var totalTime = 0;
+        var last1 = 0;
+        var last2 = 0;
         var timerInterval;
         var eng = Random.MersenneTwister19937.autoSeed();
         var myrandom = new Random.Random(eng);
@@ -335,6 +337,16 @@
             for (var i = 0; i < questionCount; i++) {
                 var num1 = myrandom.integer(5, limitNumber);
                 var num2 = myrandom.integer(5, limitNumber);
+                if (questions.length > 0){
+                    last1 = questions[questions.length-1].num1;
+                    last2 = questions[questions.length-1].num2;
+                    //console.log(last1, last2);
+                    while (num1 == last1 || num1 == last2 || num2 == last1 || num2 == last2){
+                        //console.log(num1 + " " + num2 + " were bad");
+                        num1 = myrandom.integer(5, limitNumber);
+                        num2 = myrandom.integer(5, limitNumber);
+                    }
+                }
                 questions.push({
                     num1: num1,
                     num2: num2,
