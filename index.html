@@ -39,7 +39,6 @@
             
         }
         #resultsWindow {
-            margin-left: 100px;
             min-width: 600px;
         }
 
@@ -305,6 +304,7 @@
             <option value="10000">10000</option>
         </select>
         <button id="start-btn">Start</button>
+        <br><span id="spancontrols">R key to restart | Esc to refresh the page</span>
         <div class="container" id="quick">
           <h1>Quick start</h1>
           <div class="quick-start-column">
@@ -337,6 +337,7 @@
             <div id="result"></div>
             <canvas id="resultsGraph"><canvas>
         </div>
+        <br><span id="spancontrols">R key to restart | Esc to refresh the page</span>
     </div>
 
     <div class="container" id="quiz-window" style="display: none;">
@@ -528,7 +529,7 @@
 
 
 
-            document.getElementById('settings').style.display = 'block';
+            //document.getElementById('settings').style.display = 'block';
             document.getElementById('resultsWindow').style.display = 'block';
             document.getElementById('result-container').style.display = 'block';
             document.getElementById('quiz-window').style.display = 'none';
