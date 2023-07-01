@@ -127,7 +127,10 @@
             border: none;
             border-radius: 5px;
         }
-
+        #spancontrols {
+            font-size: 15px;
+            color: #999;
+        }
         #timer {
             font-family: 'Arial', sans-serif;
             font-size: 18px;
@@ -343,7 +346,8 @@
         <div id="timer">
             Timer: <span id="total-time">0s</span>
             Question: <span id="question-number">0/0</span>
-            Question Time: <span id="question-time">0s</span>
+            Question Time: <span id="question-time">0s</span><br>
+            <span id="spancontrols">R key to restart | Esc to refresh the page</span>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -616,8 +620,8 @@
             document.getElementById('resultsWindow').style.display = 'none';
             document.getElementById('result-container').style.display = 'none';
             document.getElementById('quiz-window').style.display = 'block';
+            document.getElementById('input').value = '';
             document.getElementById('input').focus();
-            document.getElementById('start-btn').disabled = true;
         }
 
         var startBtn = document.getElementById('start-btn');
@@ -631,6 +635,26 @@
                 inputElement.value = '';
             }
         });
+        
+        document.addEventListener('keydown', (event) => {
+            const key = event.key;
+                      if (key === 'Escape') {
+            // Perform the page update or reload here
+            location.reload(); // Example: Reload the page
+          }
+          // Check if the pressed key is "R" (you can use any other key as per your preference)
+          if (key === 'r' || key === 'R') {
+            // Replace 'your-button-id' with the actual id of the button you want to click
+            const buttonToClick = document.getElementById('start-btn');
+
+            // Check if the button exists on the page
+            if (buttonToClick) {
+              // Trigger a click event on the button
+              buttonToClick.click();
+            }
+            
+      }
+    });
     </script>
 </body>
 
