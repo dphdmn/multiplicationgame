@@ -1,4 +1,4 @@
-Elevate Your Mental Math with the Multiplication Game! 🧠
+# Elevate Your Mental Math with the Multiplication Game! 🧠
 
 Looking to enhance your mental math skills? Look no further than the Multiplication Game, available at **[Multiplication Game](https://dphdmn.github.io/multiplicationgame/)**. This engaging web-based experience is designed to challenge and improve your multiplication prowess in a fun and interactive way. 🚀🎮
 
