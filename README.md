@@ -36,3 +36,8 @@ While personal records aren't logged at the moment, stay tuned for potential upd
 The Multiplication Game is optimized for mobile devices, with user-friendly numbered keyboards that automatically appear when entering numbers. This ensures you maintain your speed and accuracy even while playing on your mobile device.
 
 Challenge yourself, improve your mental math, and have fun while doing it! Experience the Multiplication Game today at **[Multiplication Game](https://dphdmn.github.io/multiplicationgame/)**. Your mathematical journey starts here. 🌟
+
+# Wiki Update: 
+Created this page, it has some cool tricks for that game:
+
+https://github.com/dphdmn/multiplicationgame/wiki/DPH-Mental-Math-Without-BS
